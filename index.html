@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Centro Médico Vitalia - Excelencia en Salud Integral</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 font-sans text-gray-800 antialiased">
+
+    <!-- Barra Superior de Información -->
+    <div class="bg-teal-900 text-teal-100 text-xs py-2 px-6">
+        <div class="container mx-auto max-w-7xl flex flex-col sm:flex-row justify-between items-center gap-2">
+            <div class="flex items-center space-x-6">
+                <span>📞 Emergencias / Citas: (899) 123-4567</span>
+                <span>✉️ contacto@medicovitalia.com</span>
+            </div>
+            <div class="flex items-center space-x-4">
+                <span>🕒 Lunes a Sábado: 08:00 AM - 08:00 PM</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navegación Principal -->
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-3 flex justify-between items-center max-w-7xl">
+            <!-- LOGOTIPO AJUSTADO -->
+            <a href="index.html" class="flex items-center space-x-3">
+                <img src="logo.jpg" alt="Centro Médico Vitalia" class="h-12 w-auto object-contain mix-blend-multiply">
+            </a>
+
+            <div class="hidden md:flex items-center space-x-8 font-medium text-sm text-gray-600">
+                <a href="index.html" class="text-teal-700 font-semibold transition">Inicio</a>
+                <a href="#servicios" class="hover:text-teal-700 transition">Servicios</a>
+                <a href="#especialistas" class="hover:text-teal-700 transition">Especialistas</a>
+                <a href="agendar.html" class="hover:text-teal-700 transition">Agendar Cita</a>
+            </div>
+            <div class="flex items-center space-x-4">
+                <a href="agendar.html" class="bg-teal-600 text-white px-5 py-2.5 rounded-xl font-medium shadow-sm hover:bg-teal-700 transition text-sm flex items-center gap-2">
+                    📅 Agendar Cita
+                </a>
+                <a href="login.html" class="text-xs font-semibold text-gray-400 hover:text-teal-700 border border-gray-200 px-3 py-2 rounded-xl transition hidden sm:inline-block">
+                    Acceso Médico
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sección Hero Principal -->
+    <header class="bg-gradient-to-br from-teal-900 via-teal-800 to-teal-600 text-white py-24 px-6 relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px]"></div>
+        <div class="container mx-auto max-w-7xl grid grid-cols-1 md:grid-cols-2 gap-12 items-center relative z-10">
+            <div>
+                <span class="bg-teal-700 text-teal-200 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider mb-4 inline-block">Atención Médica Profesional</span>
+                <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight mb-6 leading-tight">Su salud y la de su familia en manos expertas</h1>
+                <p class="text-lg text-teal-100 mb-8 leading-relaxed">
+                    Brindamos servicios médicos de alta especialidad con tecnología de vanguardia, calidez humana y un equipo comprometido con su bienestar integral.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="agendar.html" class="bg-white text-teal-900 font-bold px-8 py-4 rounded-xl shadow-xl hover:bg-teal-50 transition text-center">
+                        Reservar Consulta Ahora
+                    </a>
+                    <a href="#servicios" class="border border-teal-400 text-white font-medium px-8 py-4 rounded-xl hover:bg-teal-800/50 transition text-center">
+                        Conocer Servicios
+                    </a>
+                </div>
+            </div>
+            <div class="bg-white/10 backdrop-blur-md p-8 rounded-3xl border border-white/20 shadow-2xl">
+                <div class="space-y-6">
+                    <div class="flex items-start space-x-4">
+                        <div class="bg-white text-teal-700 p-3 rounded-2xl font-bold text-xl shadow">⭐</div>
+                        <div>
+                            <h3 class="font-bold text-lg">Calidad Certificada</h3>
+                            <p class="text-teal-100 text-sm">Protocolos médicos internacionales y estrictas normas de higiene y seguridad.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-4">
+                        <div class="bg-white text-teal-700 p-3 rounded-2xl font-bold text-xl shadow">⏱️</div>
+                        <div>
+                            <h3 class="font-bold text-lg">Citas Rápidas y Sin Esperas</h3>
+                            <p class="text-teal-100 text-sm">Sistema de agendamiento en línea optimizado para su comodidad.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-4">
+                        <div class="bg-white text-teal-700 p-3 rounded-2xl font-bold text-xl shadow">👨‍⚕️</div>
+                        <div>
+                            <h3 class="font-bold text-lg">Especialistas Destacados</h3>
+                            <p class="text-teal-100 text-sm">Médicos con amplia trayectoria y especialidades avaladas.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sección de Servicios -->
+    <section id="servicios" class="py-20 px-6 container mx-auto max-w-7xl">
+        <div class="text-center max-w-2xl mx-auto mb-16">
+            <span class="text-teal-600 font-semibold text-xs uppercase tracking-widest bg-teal-50 px-3 py-1 rounded-full">Nuestros Servicios</span>
+            <h2 class="text-3xl font-bold text-gray-900 mt-3">Atención médica integral en un solo lugar</h2>
+            <p class="text-gray-500 mt-2 text-sm">Contamos con infraestructura moderna para diagnósticos precisos y tratamientos eficaces.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition">
+                <div class="w-14 h-14 bg-teal-50 text-teal-700 rounded-2xl flex items-center justify-center text-2xl mb-6 font-bold">🩺</div>
+                <h3 class="text-xl font-bold text-gray-800 mb-3">Medicina General</h3>
+                <p class="text-gray-500 text-sm leading-relaxed">Consultas de prevención, diagnóstico oportuno, control de enfermedades crónicas y seguimiento médico familiar.</p>
+            </div>
+
+            <div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition">
+                <div class="w-14 h-14 bg-teal-50 text-teal-700 rounded-2xl flex items-center justify-center text-2xl mb-6 font-bold">❤️</div>
+                <h3 class="text-xl font-bold text-gray-800 mb-3">Cardiología Avanzada</h3>
+                <p class="text-gray-500 text-sm leading-relaxed">Evaluación de la salud cardiovascular, electrocardiogramas, control de presión arterial y prevención de riesgos cardíacos.</p>
+            </div>
+
+            <div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition">
+                <div class="w-14 h-14 bg-teal-50 text-teal-700 rounded-2xl flex items-center justify-center text-2xl mb-6 font-bold">🧸</div>
+                <h3 class="text-xl font-bold text-gray-800 mb-3">Pediatría Integral</h3>
+                <p class="text-gray-500 text-sm leading-relaxed">Cuidado especializado para el crecimiento, desarrollo, vacunación y atención de padecimientos infantiles en ambiente seguro.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Especialistas -->
+    <section id="especialistas" class="py-20 px-6 bg-white border-t border-gray-100">
+        <div class="container mx-auto max-w-7xl">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <span class="text-teal-600 font-semibold text-xs uppercase tracking-widest bg-teal-50 px-3 py-1 rounded-full">Staff Médico</span>
+                <h2 class="text-3xl font-bold text-gray-900 mt-3">Nuestros Especialistas</h2>
+                <p class="text-gray-500 mt-2 text-sm">Profesionales altamente capacitados y con vocación de servicio.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Doctor 1 -->
+                <div class="bg-gray-50 p-6 rounded-3xl border border-gray-100 text-center hover:shadow-md transition">
+                    <div class="w-24 h-24 bg-teal-100 text-teal-800 rounded-full flex items-center justify-center text-3xl mx-auto mb-5 font-bold shadow-inner">ER</div>
+                    <h3 class="text-lg font-bold text-gray-900">Dra. Elena Ríos</h3>
+                    <p class="text-teal-600 font-semibold text-sm mb-3">Medicina General</p>
+                    <p class="text-gray-500 text-sm px-4">Enfoque preventivo y atención integral para pacientes de todas las edades.</p>
+                    <div class="mt-6">
+                        <a href="agendar.html" class="inline-block bg-teal-600 text-white text-xs font-bold px-4 py-2.5 rounded-xl hover:bg-teal-700 transition">Agendar con Dra. Elena</a>
+                    </div>
+                </div>
+
+                <!-- Doctor 2 -->
+                <div class="bg-gray-50 p-6 rounded-3xl border border-gray-100 text-center hover:shadow-md transition">
+                    <div class="w-24 h-24 bg-teal-100 text-teal-800 rounded-full flex items-center justify-center text-3xl mx-auto mb-5 font-bold shadow-inner">CS</div>
+                    <h3 class="text-lg font-bold text-gray-900">Dr. Carlos Sánchez</h3>
+                    <p class="text-teal-600 font-semibold text-sm mb-3">Cardiología</p>
+                    <p class="text-gray-500 text-sm px-4">Especialista en salud cardiovascular, diagnóstico y tratamientos avanzados.</p>
+                    <div class="mt-6">
+                        <a href="agendar.html" class="inline-block bg-teal-600 text-white text-xs font-bold px-4 py-2.5 rounded-xl hover:bg-teal-700 transition">Agendar con Dr. Carlos</a>
+                    </div>
+                </div>
+
+                <!-- Doctor 3 -->
+                <div class="bg-gray-50 p-6 rounded-3xl border border-gray-100 text-center hover:shadow-md transition">
+                    <div class="w-24 h-24 bg-teal-100 text-teal-800 rounded-full flex items-center justify-center text-3xl mx-auto mb-5 font-bold shadow-inner">AT</div>
+                    <h3 class="text-lg font-bold text-gray-900">Dr. Ana Torres</h3>
+                    <p class="text-teal-600 font-semibold text-sm mb-3">Pediatría</p>
+                    <p class="text-gray-500 text-sm px-4">Cuidado especializado y seguimiento del desarrollo infantil seguro.</p>
+                    <div class="mt-6">
+                        <a href="agendar.html" class="inline-block bg-teal-600 text-white text-xs font-bold px-4 py-2.5 rounded-xl hover:bg-teal-700 transition">Agendar con Dra. Ana</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pie de Página Profesional -->
+    <footer class="bg-gray-900 text-gray-400 py-16 px-6">
+        <div class="container mx-auto max-w-7xl grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
+            <div>
+                <div class="flex items-center space-x-3 mb-4">
+                    <img src="logo.png" alt="Centro Médico Vitalia" class="h-10 w-auto object-contain brightness-0 invert mix-blend-multiply">
+                </div>
+                <p class="text-sm leading-relaxed">Comprometidos con la salud y bienestar de nuestra comunidad mediante servicios médicos profesionales y de alta calidad.</p>
+            </div>
+            <div>
+                <h4 class="text-white font-semibold mb-4 text-sm uppercase tracking-wider">Enlaces Rápidos</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="index.html" class="hover:text-white transition">Inicio</a></li>
+                    <li><a href="#servicios" class="hover:text-white transition">Nuestros Servicios</a></li>
+                    <li><a href="#especialistas" class="hover:text-white transition">Especialistas</a></li>
+                    <li><a href="agendar.html" class="hover:text-white transition">Agendar Cita</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-white font-semibold mb-4 text-sm uppercase tracking-wider">Especialidades</h4>
+                <ul class="space-y-2 text-sm">
+                    <li>Medicina General</li>
+                    <li>Cardiología</li>
+                    <li>Pediatría</li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-white font-semibold mb-4 text-sm uppercase tracking-wider">Portal Interno</h4>
+                <p class="text-sm mb-4">Acceso exclusivo para personal médico y administrativo del centro.</p>
+                <a href="login.html" class="inline-block bg-gray-800 text-white text-xs font-semibold px-4 py-2.5 rounded-xl hover:bg-teal-700 transition">Iniciar Sesión Admin</a>
+            </div>
+        </div>
+        <div class="border-t border-gray-800 pt-8 text-center text-xs text-gray-500">
+            <p>&copy; 2026 Centro Médico Vitalia. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

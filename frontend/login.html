@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceso Médico - Centro Médico Vitalia</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 font-sans text-gray-800 flex items-center justify-center min-h-screen">
+
+    <div class="bg-white p-8 md:p-10 rounded-3xl shadow-sm border border-gray-100 w-full max-w-md mx-4">
+        
+        <div class="text-center mb-8">
+            <span class="text-4xl">🔐</span>
+            <h1 class="text-2xl font-extrabold text-gray-800 mt-2">Portal Administrativo</h1>
+            <p class="text-gray-500 text-sm mt-1">Ingrese sus credenciales de acceso</p>
+        </div>
+
+        <div id="mensaje-error" class="hidden mb-6 p-4 rounded-xl text-sm font-medium bg-red-50 text-red-700 border border-red-200"></div>
+
+        <form onsubmit="iniciarSesion(event)" class="space-y-6">
+            <div>
+                <label class="block text-xs font-semibold text-gray-500 uppercase mb-2">Usuario</label>
+                <input type="text" id="usuario" required placeholder="admin" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-teal-500 focus:outline-none text-sm">
+            </div>
+
+            <div>
+                <label class="block text-xs font-semibold text-gray-500 uppercase mb-2">Contraseña</label>
+                <input type="password" id="password" required placeholder="••••••••" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-teal-500 focus:outline-none text-sm">
+            </div>
+
+            <button type="submit" class="w-full bg-teal-600 text-white font-bold py-3.5 rounded-xl shadow-lg hover:bg-teal-700 transition">
+                Iniciar Sesión
+            </button>
+        </form>
+
+        <div class="text-center mt-6">
+            <a href="index.html" class="text-xs text-gray-400 hover:text-teal-700 transition">← Volver al sitio web principal</a>
+        </div>
+    </div>
+
+    <script>
+        async function iniciarSesion(event) {
+            event.preventDefault();
+            const usuario = document.getElementById('usuario').value;
+            const password = document.getElementById('password').value;
+            const errorDiv = document.getElementById('mensaje-error');
+
+            try {
+                const response = await fetch('http://localhost:3000/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ usuario, password })
+                });
+
+                const resultado = await response.json();
+
+                if (response.ok) {
+                    localStorage.setItem('tokenAdmin', resultado.token);
+                    window.location.href = 'admin-citas.html';
+                } else {
+                    errorDiv.innerText = resultado.error || 'Credenciales inválidas';
+                    errorDiv.classList.remove('hidden');
+                }
+            } catch (error) {
+                errorDiv.innerText = 'Error al conectar con el servidor';
+                errorDiv.classList.remove('hidden');
+            }
+        }
+    </script>
+</body>
+</html>

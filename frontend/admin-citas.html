@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Administrativo - Centro Médico Vitalia</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Librerías para Exportar a PDF y Excel -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</head>
+<body class="bg-gray-50 font-sans text-gray-800">
+
+    <!-- Navegación Admin -->
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center max-w-7xl">
+            <div class="flex items-center space-x-2">
+                <span class="text-3xl">🏥</span>
+                <span class="text-xl font-bold text-teal-700 tracking-tight">Vitalia - Panel Médico</span>
+            </div>
+            <div class="flex items-center space-x-4">
+                <span id="user-info" class="text-sm font-medium text-gray-600"></span>
+                <button onclick="cerrarSesion()" class="bg-red-50 text-red-600 px-4 py-2 rounded-lg font-medium text-sm hover:bg-red-100 transition">Cerrar Sesión</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenido Principal -->
+    <main class="container mx-auto px-6 py-10 max-w-7xl">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+            <div>
+                <h1 class="text-3xl font-extrabold text-gray-800">Gestión de Citas Médicas</h1>
+                <p class="text-gray-500 mt-1">Consulta, busca, filtra y exporta las citas de los pacientes.</p>
+            </div>
+            <div class="flex flex-wrap gap-3">
+                <button onclick="exportarExcel()" class="bg-green-600 text-white px-4 py-2.5 rounded-xl font-medium shadow-sm hover:bg-green-700 transition flex items-center gap-2">
+                    📊 Exportar Excel
+                </button>
+                <button onclick="exportarPDF()" class="bg-red-600 text-white px-4 py-2.5 rounded-xl font-medium shadow-sm hover:bg-red-700 transition flex items-center gap-2">
+                    📄 Exportar PDF
+                </button>
+            </div>
+        </div>
+
+        <!-- Barra de Búsqueda y Filtros -->
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 mb-8 grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+                <label class="block text-xs font-semibold text-gray-500 uppercase mb-2">Buscar por Paciente o Doctor</label>
+                <input type="text" id="input-buscar" placeholder="Ej. Ana Pérez o Dr. Sánchez..." class="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-teal-500 focus:outline-none text-sm">
+            </div>
+            <div>
+                <label class="block text-xs font-semibold text-gray-500 uppercase mb-2">Filtrar por Especialidad</label>
+                <select id="select-especialidad" class="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-teal-500 focus:outline-none text-sm bg-white">
+                    <option value="">Todas las especialidades</option>
+                    <option value="Medicina General">Medicina General</option>
+                    <option value="Cardiología">Cardiología</option>
+                    <option value="Pediatría">Pediatría</option>
+                </select>
+            </div>
+            <div class="flex items-end">
+                <button onclick="filtrarCitas()" class="w-full bg-teal-600 text-white py-2.5 rounded-xl font-medium hover:bg-teal-700 transition text-sm">Aplicar Filtros</button>
+            </div>
+        </div>
+
+        <!-- Tabla de Citas -->
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-gray-50 text-gray-500 uppercase text-xs tracking-wider border-b border-gray-100">
+                            <th class="px-6 py-4 font-semibold">Paciente</th>
+                            <th class="px-6 py-4 font-semibold">Contacto</th>
+                            <th class="px-6 py-4 font-semibold">Especialista / Área</th>
+                            <th class="px-6 py-4 font-semibold">Fecha y Hora</th>
+                            <th class="px-6 py-4 font-semibold">Motivo</th>
+                            <th class="px-6 py-4 font-semibold text-center">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-citas" class="divide-y divide-gray-100 text-sm">
+                        <!-- Las citas se cargan dinámicamente aquí -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- Script de Gestión -->
+    <script>
+        let todasLasCitas = [];
+
+        window.onload = function() {
+            const token = localStorage.getItem('tokenAdmin');
+            if (!token) {
+                window.location.href = 'login.html';
+                return;
+            }
+            document.getElementById('user-info').innerText = `👤 Administrador`;
+            cargarCitas();
+        }
+
+        async function cargarCitas() {
+            try {
+                const response = await fetch('http://localhost:3000/api/citas');
+                todasLasCitas = await response.json();
+                mostrarCitas(todasLasCitas);
+            } catch (error) {
+                console.error('Error al cargar citas:', error);
+            }
+        }
+
+        function mostrarCitas(citas) {
+            const tbody = document.getElementById('tabla-citas');
+            tbody.innerHTML = '';
+
+            if (citas.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="px-6 py-8 text-center text-gray-400">No se encontraron citas registradas.</td></tr>`;
+                return;
+            }
+
+            citas.forEach(cita => {
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-gray-50 transition';
+                tr.innerHTML = `
+                    <td class="px-6 py-4 font-medium text-gray-800">${cita.nombrePaciente}</td>
+                    <td class="px-6 py-4 text-gray-600 text-xs">📞 ${cita.telefono}<br>✉️ ${cita.correo}</td>
+                    <td class="px-6 py-4">
+                        <span class="font-semibold text-teal-700">${cita.doctor}</span><br>
+                        <span class="text-xs text-gray-400">${cita.especialidad}</span>
+                    </td>
+                    <td class="px-6 py-4 text-gray-700 whitespace-nowrap">📅 ${cita.fecha}<br>⏰ ${cita.hora}</td>
+                    <td class="px-6 py-4 text-gray-600 max-w-xs truncate">${cita.motivo || 'Sin especificar'}</td>
+                    <td class="px-6 py-4 text-center">
+                        <button onclick="eliminarCita('${cita._id}')" class="bg-red-50 text-red-600 px-3 py-1.5 rounded-lg text-xs font-semibold hover:bg-red-100 transition">Cancelar</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function filtrarCitas() {
+            const textoBusqueda = document.getElementById('input-buscar').value.toLowerCase();
+            const especialidadFiltro = document.getElementById('select-especialidad').value;
+
+            const filtradas = todasLasCitas.filter(cita => {
+                const coincideTexto = cita.nombrePaciente.toLowerCase().includes(textoBusqueda) || cita.doctor.toLowerCase().includes(textoBusqueda);
+                const coincideEspecialidad = especialidadFiltro === "" || cita.especialidad === especialidadFiltro;
+                return coincideTexto && coincideEspecialidad;
+            });
+
+            mostrarCitas(filtradas);
+        }
+
+        async function eliminarCita(id) {
+            if (!confirm('¿Estás seguro de que deseas cancelar y eliminar esta cita?')) return;
+            try {
+                const res = await fetch(`http://localhost:3000/api/citas/${id}`, { method: 'DELETE' });
+                if (res.ok) {
+                    cargarCitas();
+                } else {
+                    alert('No se pudo eliminar la cita.');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        function cerrarSesion() {
+            localStorage.removeItem('tokenAdmin');
+            window.location.href = 'login.html';
+        }
+
+        function exportarExcel() {
+            const datosParaExcel = todasLasCitas.map(c => ({
+                Paciente: c.nombrePaciente,
+                Teléfono: c.telefono,
+                Correo: c.correo,
+                Doctor: c.doctor,
+                Especialidad: c.especialidad,
+                Fecha: c.fecha,
+                Hora: c.hora,
+                Motivo: c.motivo
+            }));
+
+            const worksheet = XLSX.utils.json_to_sheet(datosParaExcel);
+            const workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, "Citas Médicas");
+            XLSX.writeFile(workbook, "reporte_citas_vitalia.xlsx");
+        }
+
+        function exportarPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            doc.setFontSize(18);
+            doc.setTextColor(13, 148, 136);
+            doc.text("Centro Médico Vitalia - Reporte de Citas", 14, 20);
+
+            doc.setFontSize(10);
+            doc.setTextColor(100);
+            doc.text(`Fecha de generación: ${new Date().toLocaleDateString()}`, 14, 28);
+
+            const columnas = ["Paciente", "Teléfono", "Doctor", "Especialidad", "Fecha", "Hora"];
+            const filas = todasLasCitas.map(c => [
+                c.nombrePaciente,
+                c.telefono,
+                c.doctor,
+                c.especialidad,
+                c.fecha,
+                c.hora
+            ]);
+
+            doc.autoTable({
+                head: [columnas],
+                body: filas,
+                startY: 35,
+                theme: 'grid',
+                headStyles: { fillColor: [13, 148, 136] }
+            });
+
+            doc.save("reporte_citas_vitalia.pdf");
+        }
+    </script>
+</body>
+</html>
