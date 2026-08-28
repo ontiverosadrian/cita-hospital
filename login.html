@@ -40,30 +40,22 @@
     </div>
 
     <script>
-        async function iniciarSesion(event) {
+        function iniciarSesion(event) {
             event.preventDefault();
-            const usuario = document.getElementById('usuario').value;
-            const password = document.getElementById('password').value;
+            const usuarioInput = document.getElementById('usuario').value.trim();
+            const passwordInput = document.getElementById('password').value.trim();
             const errorDiv = document.getElementById('mensaje-error');
 
-            try {
-                const response = await fetch('http://localhost:3000/api/login', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ usuario, password })
-                });
+            // Credenciales de acceso de prueba (puedes cambiarlas aquí)
+            const usuarioValido = "admin";
+            const passwordValido = "1234";
 
-                const resultado = await response.json();
-
-                if (response.ok) {
-                    localStorage.setItem('tokenAdmin', resultado.token);
-                    window.location.href = 'admin-citas.html';
-                } else {
-                    errorDiv.innerText = resultado.error || 'Credenciales inválidas';
-                    errorDiv.classList.remove('hidden');
-                }
-            } catch (error) {
-                errorDiv.innerText = 'Error al conectar con el servidor';
+            if (usuarioInput === usuarioValido && passwordInput === passwordValido) {
+                // Guardar indicador de sesión activa en el navegador
+                localStorage.setItem('tokenAdmin', 'sesion-activa-valida');
+                window.location.href = 'admin-citas.html';
+            } else {
+                errorDiv.innerText = 'Usuario o contraseña incorrectos';
                 errorDiv.classList.remove('hidden');
             }
         }
